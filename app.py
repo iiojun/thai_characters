@@ -28,8 +28,20 @@ st.markdown(
 st.write("### これ，なんて文字？")
 
 # 3. C,D の選択肢を全データからプルダウン化
-choice_C = st.selectbox("読み方", options=['---'] + list(df["C"].unique()))
-choice_D = st.selectbox("意味",   options=['---'] + list(df["D"].unique()))
+DEFAULT_OPTION = '選択してください'
+
+# session_state に初期値を設定
+if "selected1" not in st.session_state:
+    st.session_state.selected1 = DEFAULT_OPTION
+if "selected2" not in st.session_state:
+    st.session_state.selected2 = DEFAULT_OPTION
+
+choice_C = st.selectbox("読み方", 
+                options=[DEFAULT_OPTION] + list(df["C"].unique()),
+                key="selected1")
+choice_D = st.selectbox("意味",
+                options=[DEFAULT_OPTION] + list(df["D"].unique()),
+                key="selected2")
 
 # 4. サブミットボタン
 if st.button("判定"):
@@ -41,18 +53,22 @@ if st.button("判定"):
     # 5. 判定結果
     if correct:
         st.success("正解！")
-        st.write("### 正しい説明")
+        st.write("### 読み方と意味")
         st.write(f"### {target_row['B']}")
         st.write(f"読み方: 　 {target_row['C']}")
         st.write(f"意　味: 　 {target_row['D']}")
     else:
-        st.error("不正解です…")
-        st.write("### 正しい説明はこちら")
+        st.error("不正解です" + (" …… 惜しい" \
+                if choice_C == target_row["C"] or
+                   choice_D == target_row["D"] else ""))
+        st.write("### 正しい読み方と意味はこちら")
         st.write(f"### {target_row['B']}")
         st.write(f"読み方: 　 {target_row['C']}")
         st.write(f"意　味: 　 {target_row['D']}")
 
 # 次の問題ボタン
 if st.button("次の問題"):
+    del st.session_state.selected1
+    del st.session_state.selected2
     st.session_state.row_index = random.randint(0, len(df) - 1)
     st.rerun()
