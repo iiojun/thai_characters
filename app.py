@@ -45,26 +45,20 @@ choice_D = st.selectbox("意味",
 
 # 4. サブミットボタン
 if st.button("判定"):
-    correct = (
-        choice_C == target_row["C"]
-        and choice_D == target_row["D"]
-    )
+    correct = ( choice_C == target_row["C"] and choice_D == target_row["D"] )
 
     # 5. 判定結果
-    if correct:
-        st.success("正解！")
-        st.write("### 読み方と意味")
-        st.write(f"### {target_row['B']}")
-        st.write(f"読み方: 　 {target_row['C']}")
-        st.write(f"意　味: 　 {target_row['D']}")
-    else:
-        st.error("不正解です" + (" …… 惜しい" \
+    message = "正解！" if correct else ("不正解です …… 惜しい" \
                 if choice_C == target_row["C"] or
-                   choice_D == target_row["D"] else ""))
-        st.write("### 正しい読み方と意味はこちら")
-        st.write(f"### {target_row['B']}")
-        st.write(f"読み方: 　 {target_row['C']}")
-        st.write(f"意　味: 　 {target_row['D']}")
+                   choice_D == target_row["D"] else "不正解です")
+    if correct:
+        st.success(message)
+    else:
+        st.error(message)
+    st.write("### 正しい読み方と意味はこちら")
+    st.write(f"### {target_row['B']}")
+    st.write(f"読み方: 　 {target_row['C']}")
+    st.write(f"意　味: 　 {target_row['D']}")
 
 # 次の問題ボタン
 if st.button("次の問題"):
