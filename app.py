@@ -19,7 +19,9 @@ target_row = df.iloc[row_index]
 
 # 2. A の文字を 300px × 300px で表示
 st.markdown(
-    f"<div style='font-size: 160px; text-align: center; border: 1px solid #ccc; width:300px; height:300px; display:flex; align-items:center; justify-content:center;'>"
+    f"<div style='font-size: 160px; text-align: center; "
+    f"border: 1px solid #ccc; width:300px; height:300px; "
+    f"display:flex; align-items:center; justify-content:center;'>"
     f"{target_row['A']}"
     f"</div>",
     unsafe_allow_html=True,
